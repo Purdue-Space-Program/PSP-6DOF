@@ -7,7 +7,6 @@ def hat(w: jnp.ndarray) -> jnp.ndarray: # R3 -> so(3)
     [-w[1], w[0], 0]
   ])
 
-
 def vee(W: jnp.ndarray) -> jnp.ndarray: # so(3) -> R3
   return jnp.array([W[2, 1], W[0, 2], W[1, 0]])
 
@@ -27,3 +26,27 @@ def log(R: jnp.ndarray) -> jnp.ndarray:
 
 def adjoint(R: jnp.ndarray) -> jnp.ndarray: # adjoint representation
   return R
+
+def Jl(w: jnp.ndarray) -> jnp.ndarray:
+  angle = jnp.linalg.norm(w)
+  W = hat(w)
+  W2 = W @ W
+  safe_angle = jnp.where(angle < 1e-7, 1.0, angle)
+  coeff1 = jnp.where(angle < 1e-7, 0.5 - angle**2/24.0, (1 - jnp.cos(safe_angle))/safe_angle**2)
+  coeff2 = jnp.where(angle < 1e-7, 1/6.0 - angle**2/120.0, (safe_angle - jnp.sin(safe_angle))/safe_angle**3)
+  return jnp.eye(3) + coeff1*W + coeff2*W2
+
+def Jl_inv(w: jnp.ndarray) -> jnp.ndarray:
+  angle = jnp.linalg.norm(w)
+  W = hat(w)
+  W2 = W @ W
+  safe_angle = jnp.where(angle < 1e-7, 1.0, angle)
+  coeff1 = 0.5
+  coeff2 = jnp.where(angle < 1e-7, 1/12.0 - angle**2/720.0, 1/safe_angle**2 - (1 + jnp.cos(safe_angle))/(2*safe_angle*jnp.sin(safe_angle)))
+  return jnp.eye(3) - coeff1*W + coeff2*W2
+
+def Jr(w: jnp.ndarray) -> jnp.ndarray:
+  return Jl(-w)
+
+def Jr_inv(w: jnp.ndarray) -> jnp.ndarray:
+  return Jl_inv(-w)

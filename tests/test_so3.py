@@ -1,6 +1,6 @@
 import pytest
 import jax.numpy as jnp
-from lie.so3 import hat, vee, exp, log, adjoint
+from lie.so3 import hat, vee, exp, log, adjoint, Jl, Jl_inv, Jr, Jr_inv
 
 def test_hat_vee_roundtrip():
   w = jnp.array([1.0, 2.0, 3.0])
@@ -49,3 +49,39 @@ def test_log_zero():
   w = log(R)
   assert not jnp.any(jnp.isnan(w))
   assert jnp.allclose(w, jnp.zeros(3), atol=1e-6)
+
+def test_Jl_identity():
+  w = jnp.zeros(3)
+  assert jnp.allclose(Jl(w), jnp.eye(3), atol=1e-6)
+
+def test_Jr_identity():
+  w = jnp.zeros(3)
+  assert jnp.allclose(Jr(w), jnp.eye(3), atol=1e-6)
+
+def test_Jl_inv_inverse():
+  w = jnp.array([0.1, 0.2, 0.3])
+  assert jnp.allclose(Jl(w) @ Jl_inv(w), jnp.eye(3), atol=1e-6)
+
+def test_Jr_inv_inverse():
+  w = jnp.array([0.1, 0.2, 0.3])
+  assert jnp.allclose(Jr(w) @ Jr_inv(w), jnp.eye(3), atol=1e-6)
+
+def test_Jr_is_Jl_negated():
+  w = jnp.array([0.1, 0.2, 0.3])
+  assert jnp.allclose(Jr(w), Jl(-w), atol=1e-6)
+
+def test_Jl_small_angle():
+  w = jnp.array([1e-9, 1e-9, 1e-9])
+  assert not jnp.any(jnp.isnan(Jl(w)))
+
+def test_Jr_small_angle():
+  w = jnp.array([1e-9, 1e-9, 1e-9])
+  assert not jnp.any(jnp.isnan(Jr(w)))
+
+def test_Jl_zero():
+  w = jnp.zeros(3)
+  assert not jnp.any(jnp.isnan(Jl(w)))
+
+def test_Jl_inv_zero():
+  w = jnp.zeros(3)
+  assert not jnp.any(jnp.isnan(Jl_inv(w)))
