@@ -10,3 +10,8 @@ cd psp-6dof
 python -m venv .venv
 source .venv/bin/activate  # or .venv\Scripts\activate on Windows
 pip install -e .
+# For development:
+pip install -e ".[dev]"
+# Test the code
+pytest
+```
