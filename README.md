@@ -1,6 +1,6 @@
 # PSP 6DoF Rocket Simulator
 
-A state-of-the-art 6-degree-of-freedom rocket flight dynamics simulator using Lie group mathematics for geometrically exact integration.
+Rocket flight dynamics simulator using Lie group mathematics for geometrically exact integration, also computationally more efficient.
 
 ## Installation
 
