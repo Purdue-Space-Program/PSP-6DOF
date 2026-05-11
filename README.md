@@ -1,1 +1,12 @@
-Python 6DoF made by Pradyunn Kale and Hudson Reynolds
+# PSP 6DoF Rocket Simulator
+
+A state-of-the-art 6-degree-of-freedom rocket flight dynamics simulator using Lie group mathematics for geometrically exact integration.
+
+## Installation
+
+```bash
+git clone https://github.com/Purdue-Space-Program/psp-6dof.git
+cd psp-6dof
+python -m venv .venv
+source .venv/bin/activate  # or .venv\Scripts\activate on Windows
+pip install -e .
