@@ -1,5 +1,5 @@
 import jax.numpy as jnp
-import lie.se23 as se23
+from lie import se23
 from typing import Callable
 
 def step(f: Callable[[jnp.ndarray, float], jnp.ndarray], X: jnp.ndarray, t: float, dt: float) -> jnp.ndarray:

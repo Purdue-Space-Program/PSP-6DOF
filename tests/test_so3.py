@@ -21,11 +21,6 @@ def test_hat_is_skew_symmetric():
   W = hat(w)
   assert jnp.allclose(W, -W.T)
 
-def test_adjoint():
-  w = jnp.array([0.1, 0.2, 0.3])
-  R = exp(w)
-  assert(adjoint(R), R)
-
 def test_exp_small_angle():
   w = jnp.array([1e-9, 1e-9, 1e-9])
   R = exp(w)

@@ -1,0 +1,17 @@
+README.md
+pyproject.toml
+benchmarks/bench_integrators.py
+integrator/__init__.py
+integrator/mk_rk4.py
+integrator/rk4.py
+lie/__init__.py
+lie/se23.py
+lie/so3.py
+psp6dof.egg-info/PKG-INFO
+psp6dof.egg-info/SOURCES.txt
+psp6dof.egg-info/dependency_links.txt
+psp6dof.egg-info/top_level.txt
+tests/__init__.py
+tests/test_integrator.py
+tests/test_se23.py
+tests/test_so3.py
