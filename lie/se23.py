@@ -69,14 +69,10 @@ def Ql(w: jnp.ndarray) -> jnp.ndarray: # equation 28
   safe_angle = jnp.where(angle < 1e-7, 1.0, angle)
   coeff1 = jnp.where(angle < 1e-7, 0.5, (1 - jnp.cos(safe_angle)) / safe_angle**2)
   coeff2 = jnp.where(angle < 1e-7,
-    (safe_angle - jnp.sin(safe_angle)) / safe_angle**3,
-    (angle - jnp.sin(safe_angle)) / safe_angle**3)
+    1/6.0 - angle**2/120.0, # Taylor expansion
+    (safe_angle - jnp.sin(safe_angle)) / safe_angle**3)
   Jl_so3 = jnp.eye(3) + coeff1*W + coeff2*W2
   return Jl_so3 - Qr(w)
-
-
-def Jr_inv(xi: jnp.ndarray) -> jnp.ndarray: # equation 33
-  return Jl_inv(-xi)
 
 def Jl_inv(xi: jnp.ndarray) -> jnp.ndarray: # equation 32
   p, v, w = xi[:3], xi[3:6], xi[6:]
@@ -100,3 +96,6 @@ def Jl_inv(xi: jnp.ndarray) -> jnp.ndarray: # equation 32
       [jnp.zeros((3,3)), c1, c4],
       [jnp.zeros((3,3)), jnp.zeros((3,3)), c1]
   ])
+
+def Jr_inv(xi: jnp.ndarray) -> jnp.ndarray: # equation 33
+  return Jl_inv(-xi)
