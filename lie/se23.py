@@ -99,3 +99,6 @@ def Jl_inv(xi: jnp.ndarray) -> jnp.ndarray: # equation 32
 
 def Jr_inv(xi: jnp.ndarray) -> jnp.ndarray: # equation 33
   return Jl_inv(-xi)
+
+def lie_bracket(xi1: jnp.ndarray, xi2: jnp.ndarray) -> jnp.ndarray:
+  return vee(hat(xi1) @ hat(xi2) - hat(xi2) @ hat(xi1))
